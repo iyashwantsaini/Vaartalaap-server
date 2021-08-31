@@ -4,7 +4,7 @@ const path = require("path");
 const express = require("express");
 var { ExpressPeerServer } = require("peer");
 const { mongourl, port, users_allowed_in_room } = require("./config");
-const TextEditor = require("./schema/TextEditorData.js");
+const TextEditor = require("./schema/TextEditorSchema");
 
 //mongoose connection
 mongoose.connect(`${mongourl}`, { useNewUrlParser: true });
@@ -42,6 +42,7 @@ io.on("connection", (socket) => {
   socket.on("get-text-editor-data", async (roomID) => {
     //find if the room exists, fetch text data from DB
     const document = await findOrCreateTextData(roomID);
+    socket.join(roomID);
 
     //if room exists send text editor data to user
     socket.emit("load-text-editor-data", document.data);
