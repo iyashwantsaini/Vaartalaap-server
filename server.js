@@ -121,12 +121,5 @@ const findOrCreateTextData = async (roomID) => {
   return await TextEditor.create({ _id: roomID, data: DEFAULT_TEXT });
 };
 
-// serve client files
-app.use(express.static(path.join(__dirname, "/client")));
-// Handles any requests that don't match the ones above
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/index.html"));
-});
-
 // listen
 server.listen(port || 5000);
